@@ -20,13 +20,25 @@ const CountryList = ({countries, guess}) => {
   );
 };
 
+const Header = ({answer, country}) => {
+  return (
+    <div>
+      <button onClick={() => {answer()}}>Where's that country</button>
+      <h1>{country.name}</h1>
+
+    </div>
+  )
+}
+
 class MapApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      countries: []
+      countries: [],
+      answer: {}
     };
     this.apiUrl = 'https://restcountries.eu/rest/v2/region/Europe';
+
     this.getCountries = () => {
       axios.get(this.apiUrl)
         .then((res) => {
@@ -36,21 +48,38 @@ class MapApp extends React.Component {
           this.setState({countries: res.data});
         })
     }
+
   }
   componentDidMount(){
     this.getCountries();
   }
 
+  getAnswer() {
+    let randNum = Math.round(Math.random() * this.state.countries.length);
+    let country = this.state.countries[randNum];
+    this.setState({answer: country});
+  }
+
   guess(id){
-    console.log("guess id:", id);
+    if (id === this.state.answer.id) {
+      console.log("right answer");
+    } else {
+      console.log('wrong answer');
+    }
   }
 
   render() {
     return (
-      <CountryList
-        countries={this.state.countries}
-        guess={this.guess.bind(this)}
-      />
+      <div>
+        <Header
+          answer={this.getAnswer.bind(this)}
+          country={this.state.answer}
+        />
+        <CountryList
+          countries={this.state.countries}
+          guess={this.guess.bind(this)}
+        />
+      </div>
     )
   }
 }
