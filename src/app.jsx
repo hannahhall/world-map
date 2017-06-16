@@ -45,6 +45,7 @@ class MapApp extends React.Component {
           res.data.forEach((country, index) => {
             country.id = index;
           })
+          console.log("res.data", res.data);
           this.setState({countries: res.data});
         })
     }
