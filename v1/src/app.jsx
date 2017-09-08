@@ -47,15 +47,23 @@ class MapApp extends React.Component {
   getAnswer() {
     let randNum = Math.round(Math.random() * this.state.countries.length);
     let country = this.state.countries[randNum];
-    this.setState({answer: country});
+    this.setState({answer: country, tries: 0, hint: ''});
   }
 
   guess(id){
     console.log("id", id);
     if (id === this.state.answer.id) {
       console.log("right answer");
+      this.getAnswer()
+    } else if (this.state.tries === 3) {
+      this.setState({hint: 'This answer is in ' + this.state.answer.subregion});
+      console.log('This answer is in ' + this.state.answer.subregion);
+      this.setState({tries: this.state.tries+1});
+    } else if (this.state.tries === 5) {
+      console.log("You lose");
+      this.getAnswer();
     } else {
-      console.log('wrong answer');
+      this.setState({tries: this.state.tries+1});
     }
   }
 
