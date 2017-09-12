@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using world_map.Models;
-using world_map.Models.ManageViewModels;
-using world_map.Services;
+using WorldMap.Models;
+using WorldMap.Models.ManageViewModels;
+using WorldMap.Services;
 
-namespace world_map.Controllers
+namespace WorldMap.Controllers
 {
     [Authorize]
     public class ManageController : Controller

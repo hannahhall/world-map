@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using world_map.Models;
-using world_map.Models.AccountViewModels;
-using world_map.Services;
+using WorldMap.Models;
+using WorldMap.Models.AccountViewModels;
+using WorldMap.Services;
 
-namespace world_map.Controllers
+namespace WorldMap.Controllers
 {
     [Authorize]
     public class AccountController : Controller

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using world_map.Models;
+using WorldMap.Models;
 
-namespace world_map.Data
+namespace WorldMap.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -22,5 +22,11 @@ namespace world_map.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<WorldMap.Models.Continent> Continent { get; set; }
+
+        public DbSet<WorldMap.Models.Country> Country { get; set; }
+
+        public DbSet<WorldMap.Models.SubRegion> SubRegion { get; set; }
     }
 }

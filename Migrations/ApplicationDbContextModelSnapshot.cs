@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using world_map.Data;
+using WorldMap.Data;
 
 namespace worldmap.Migrations
 {
@@ -122,7 +122,7 @@ namespace worldmap.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("world_map.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WorldMap.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -172,6 +172,85 @@ namespace worldmap.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("WorldMap.Models.Continent", b =>
+                {
+                    b.Property<int>("ContinentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("ContinentId");
+
+                    b.ToTable("Continent");
+                });
+
+            modelBuilder.Entity("WorldMap.Models.Country", b =>
+                {
+                    b.Property<int>("CountryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Capital")
+                        .IsRequired();
+
+                    b.Property<int>("ContinentId");
+
+                    b.Property<string>("Coordinates");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("SubRegionId");
+
+                    b.HasKey("CountryId");
+
+                    b.HasIndex("ContinentId");
+
+                    b.HasIndex("SubRegionId");
+
+                    b.ToTable("Country");
+                });
+
+            modelBuilder.Entity("WorldMap.Models.Stats", b =>
+                {
+                    b.Property<int>("StatsId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<int>("Success");
+
+                    b.Property<int>("Tries");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("StatsId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Stats");
+                });
+
+            modelBuilder.Entity("WorldMap.Models.SubRegion", b =>
+                {
+                    b.Property<int>("SubRegionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContinentId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("SubRegionId");
+
+                    b.HasIndex("ContinentId");
+
+                    b.ToTable("SubRegion");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -182,7 +261,7 @@ namespace worldmap.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("world_map.Models.ApplicationUser")
+                    b.HasOne("WorldMap.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -190,7 +269,7 @@ namespace worldmap.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("world_map.Models.ApplicationUser")
+                    b.HasOne("WorldMap.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -203,9 +282,43 @@ namespace worldmap.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("world_map.Models.ApplicationUser")
+                    b.HasOne("WorldMap.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorldMap.Models.Country", b =>
+                {
+                    b.HasOne("WorldMap.Models.Continent", "Continent")
+                        .WithMany("Countries")
+                        .HasForeignKey("ContinentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WorldMap.Models.SubRegion", "SubRegion")
+                        .WithMany("Countries")
+                        .HasForeignKey("SubRegionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorldMap.Models.Stats", b =>
+                {
+                    b.HasOne("WorldMap.Models.Country", "Country")
+                        .WithMany("CountryStats")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WorldMap.Models.ApplicationUser", "User")
+                        .WithMany("UserStats")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorldMap.Models.SubRegion", b =>
+                {
+                    b.HasOne("WorldMap.Models.Continent", "Continent")
+                        .WithMany("Regions")
+                        .HasForeignKey("ContinentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

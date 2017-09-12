@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace world_map.Models.AccountViewModels
+namespace WorldMap.Models.AccountViewModels
 {
     public class SendCodeViewModel
     {

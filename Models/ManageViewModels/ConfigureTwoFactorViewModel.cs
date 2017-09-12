@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace world_map.Models.ManageViewModels
+namespace WorldMap.Models.ManageViewModels
 {
     public class ConfigureTwoFactorViewModel
     {

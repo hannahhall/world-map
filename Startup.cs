@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using world_map.Data;
-using world_map.Models;
-using world_map.Services;
+using WorldMap.Data;
+using WorldMap.Models;
+using WorldMap.Services;
 
-namespace world_map
+namespace WorldMap
 {
     public class Startup
     {
@@ -74,6 +74,7 @@ namespace world_map
             app.UseStaticFiles();
 
             app.UseIdentity();
+            DbInitializer.Initialize(app.ApplicationServices);
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 

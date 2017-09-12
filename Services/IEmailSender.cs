@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace world_map.Services
+namespace WorldMap.Services
 {
     public interface IEmailSender
     {

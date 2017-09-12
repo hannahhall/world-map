@@ -62,6 +62,19 @@ namespace worldmap.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Continent",
+                columns: table => new
+                {
+                    ContinentId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Continent", x => x.ContinentId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -147,6 +160,83 @@ namespace worldmap.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SubRegion",
+                columns: table => new
+                {
+                    SubRegionId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ContinentId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubRegion", x => x.SubRegionId);
+                    table.ForeignKey(
+                        name: "FK_SubRegion_Continent_ContinentId",
+                        column: x => x.ContinentId,
+                        principalTable: "Continent",
+                        principalColumn: "ContinentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Country",
+                columns: table => new
+                {
+                    CountryId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Capital = table.Column<string>(nullable: false),
+                    ContinentId = table.Column<int>(nullable: false),
+                    Coordinates = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    SubRegionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Country", x => x.CountryId);
+                    table.ForeignKey(
+                        name: "FK_Country_Continent_ContinentId",
+                        column: x => x.ContinentId,
+                        principalTable: "Continent",
+                        principalColumn: "ContinentId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Country_SubRegion_SubRegionId",
+                        column: x => x.SubRegionId,
+                        principalTable: "SubRegion",
+                        principalColumn: "SubRegionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stats",
+                columns: table => new
+                {
+                    StatsId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CountryId = table.Column<int>(nullable: false),
+                    Success = table.Column<int>(nullable: false),
+                    Tries = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stats", x => x.StatsId);
+                    table.ForeignKey(
+                        name: "FK_Stats_Country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Country",
+                        principalColumn: "CountryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Stats_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -183,6 +273,31 @@ namespace worldmap.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Country_ContinentId",
+                table: "Country",
+                column: "ContinentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Country_SubRegionId",
+                table: "Country",
+                column: "SubRegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stats_CountryId",
+                table: "Stats",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stats_UserId",
+                table: "Stats",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubRegion_ContinentId",
+                table: "SubRegion",
+                column: "ContinentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -203,10 +318,22 @@ namespace worldmap.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Stats");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Country");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "SubRegion");
+
+            migrationBuilder.DropTable(
+                name: "Continent");
         }
     }
 }

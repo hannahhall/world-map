@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <UserSecretsId>aspnet-world_map-9A9F4589-DE00-4A88-9EB9-A259A692AB90</UserSecretsId>
+    <UserSecretsId>aspnet-WorldMap-9A9F4589-DE00-4A88-9EB9-A259A692AB90</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="world_map.db" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="WorldMap.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

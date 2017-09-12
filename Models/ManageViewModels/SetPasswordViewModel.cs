@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace world_map.Models.ManageViewModels
+namespace WorldMap.Models.ManageViewModels
 {
     public class SetPasswordViewModel
     {
