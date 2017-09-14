@@ -37,15 +37,22 @@ namespace world_map.Controllers
             {
                 return NotFound();
             }
+
+            var user = await GetCurrentUserAsync();
             ContinentDetailViewModel model = new ContinentDetailViewModel()
             {
                 Continent = await _context.Continent
                     .SingleOrDefaultAsync(m => m.ContinentId == id),
-                User = await GetCurrentUserAsync()
+                UserId = user.Id
             };
             model.Countries = await _context.Country
                 .Where(c => c.ContinentId == model.Continent.ContinentId)
                 .ToListAsync();
+
+            model.SubRegions = await _context.SubRegion
+                .Where(sr => sr.ContinentId == model.Continent.ContinentId)
+                .ToListAsync();
+            
 
 
             if (model.Continent == null)
