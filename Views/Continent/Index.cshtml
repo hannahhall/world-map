@@ -1,35 +1,13 @@
 @model IEnumerable<WorldMap.Models.Continent>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Where's that country?";
 }
 
-<h2>Index</h2>
+<h2>Choose a Continent to test</h2>
+<hr>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ContinentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ContinentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ContinentId">Delete</a>
-            </td>
-        </tr>
+    <div><a asp-action="Details" asp-route-id="@item.ContinentId">@Html.DisplayFor(modelItem => item.Name)</a></div>
 }
-    </tbody>
-</table>
+
