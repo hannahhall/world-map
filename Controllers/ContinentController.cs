@@ -2,22 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WorldMap.Data;
 using WorldMap.Models;
+using WorldMap.Models.ContinentViewModels;
 
 namespace world_map.Controllers
 {
     public class ContinentController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ContinentController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ContinentController(ApplicationDbContext context, UserManager<ApplicationUser> manager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = manager;    
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Continent
         public async Task<IActionResult> Index()
@@ -32,15 +37,23 @@ namespace world_map.Controllers
             {
                 return NotFound();
             }
+            ContinentDetailViewModel model = new ContinentDetailViewModel()
+            {
+                Continent = await _context.Continent
+                    .SingleOrDefaultAsync(m => m.ContinentId == id),
+                User = await GetCurrentUserAsync()
+            };
+            model.Countries = await _context.Country
+                .Where(c => c.ContinentId == model.Continent.ContinentId)
+                .ToListAsync();
 
-            var continent = await _context.Continent
-                .SingleOrDefaultAsync(m => m.ContinentId == id);
-            if (continent == null)
+
+            if (model.Continent == null)
             {
                 return NotFound();
             }
 
-            return View(continent);
+            return View(model);
         }
 
         // GET: Continent/Create

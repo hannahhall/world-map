@@ -1,24 +1,27 @@
-@model WorldMap.Models.Continent
+@model WorldMap.Models.ContinentViewModels.ContinentDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<div className="mapArea">
+    <img src="~/images/europe.gif" alt="" useMap="#Map" />
+    <map name="Map" id="Map">
+    @foreach (var country in Model.Continent.Countries)
+    {
+        <area alt="" title="@country.CountryId" href="#" shape="poly" coords=@country.Coordinates  />
+    }
+    </map>
+</div>
 
-<div>
-    <h4>Continent</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ContinentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        var countries = @Html.Raw(Json.Serialize(Model.Countries, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore}))
+        console.log(countries);
+        $("#Map").click((event) => {
+            console.log(event);
+        });
+    </script>
+}
+
