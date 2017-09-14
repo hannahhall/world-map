@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<div>
+    <h1>Find: <span class="answer"></span></h1>
+</div>
 <div className="mapArea">
     <img src="~/images/europe.gif" alt="" useMap="#Map" />
     <map name="Map" id="Map">
@@ -17,11 +19,19 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var countries = @Html.Raw(Json.Serialize(Model.Countries, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore}))
-        console.log(countries);
-        $("#Map").click((event) => {
-            console.log(event);
-        });
+        const GamePlay = (function () {
+            this.user = @Html.Raw(
+                Json.Serialize(Model.UserId, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.countries = @Html.Raw(
+                Json.Serialize(Model.Countries, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.subRegions = @Html.Raw(
+                Json.Serialize(Model.SubRegions, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+                );
+            return this;
+        })()
     </script>
+    <script type="text/javascript" src="~/js/app.js"></script>
 }
 
