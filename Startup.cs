@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using WorldMap.Data;
 using WorldMap.Models;
 using WorldMap.Services;
@@ -82,7 +83,7 @@ namespace WorldMap
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Continent}/{action=Index}/{id?}");
             });
         }
     }
