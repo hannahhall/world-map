@@ -28,5 +28,7 @@ namespace WorldMap.Data
         public DbSet<WorldMap.Models.Country> Country { get; set; }
 
         public DbSet<WorldMap.Models.SubRegion> SubRegion { get; set; }
+
+        public DbSet<WorldMap.Models.Stats> Stats { get; set; }
     }
 }
