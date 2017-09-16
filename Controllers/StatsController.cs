@@ -59,44 +59,20 @@ namespace world_map.Controllers
         }
 
         // POST: Stats/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> Create([Bind("StatsId,CountryId,Tries,Success")] Stats stats)
-        // {
-        //     ModelState.Remove("User");
-        //     if (ModelState.IsValid)
-        //     {
-        //         var user = await GetCurrentUserAsync();
-        //         stats.User = user;
-        //         _context.Add(stats);
-        //         await _context.SaveChangesAsync();
-        //         return RedirectToAction("Index");
-        //     }
-        //     ViewData["CountryId"] = new SelectList(_context.Country, "CountryId", "Capital", stats.CountryId);
-        //     return View(stats);
-        // }
-
         [HttpPost]
-        public async Task<IActionResult> Create(IEnumerable<Stats> stats)
+        public async Task<IActionResult> Create(Stats stats)
         {
-            foreach (Stats stat in stats)
+            try
             {
-                
-                try
-                {
-                    var user = await GetCurrentUserAsync();
-                    stat.User = user;
-                    _context.Add(stat);
-                    await _context.SaveChangesAsync();
-                }
-                catch
-                {
-                    return Json("error");
-                }
+                var user = await GetCurrentUserAsync();
+                stats.User = user;
+                _context.Add(stats);
+                await _context.SaveChangesAsync();
             }
-
+            catch
+            {
+                return Json("error");
+            }
             return Json("success");        
         }
 
