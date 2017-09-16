@@ -1,5 +1,4 @@
 let tries;
-let statObjs = [];
 function GetAnswer ()
 {
     if (GamePlay.countries.length > 0){
@@ -9,25 +8,25 @@ function GetAnswer ()
         $('.answer').html(country.Name);
         return country;
     } else{
-        submit();
+        $(".results").modal('show');
     }
     
 }
 
-function submit (){
+function submit (obj){
     $.ajax({
         type: "POST",
         url: "http://localhost:5000/Stats/Create",
-        data: {stats: statObjs}
+        data: {stats: obj}
     }).done((e) =>{
         console.log("something");
         console.log(typeof e);
         if (e === "success") {
             console.log("something else");
-            window.location.href = 'http://localhost:5000/Stats';
+            country = GetAnswer();
         }
     }).fail((a,b,c) => {
-        console.log("Failed")
+        console.log(a, b, c);
     })
 }
 
@@ -38,30 +37,27 @@ $(".submit").click(submit);
 $("#Map").click((e) => {
     if(e.target.tagName === "AREA"){
         tries++;
-        var target = e.target;
+        let target = e.target;
         if (parseInt(target.title) === parseInt(country.CountryId)){
-            statObjs.push({
+            submit({
                 CountryId: country.CountryId,
                 Tries: tries,
                 Success: 1
             });
-            console.log("right answer");
-            country = GetAnswer();
-            
+            $(".score").html("");
+            alert("That was correct");
         } else {
             if (tries > 4){
-                statObjs.push({
+                submit({
                     CountryId: country.CountryId,
                     Tries: tries,
                     Success: 0
                 });
-                console.log("5 tries is too many");
-                country = GetAnswer();
-                
+                $(".score").html("");
+                alert("5 tries is too many. Moving on...");
             } else {
-                console.log("wrong answer, try again");
+                $(".score").html("Wrong");
             }     
         } 
-        console.log(statObjs);      
     }
 });
