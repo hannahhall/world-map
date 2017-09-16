@@ -5,7 +5,7 @@
 }
 <div>
     <h1>Find: <span class="answer"></span></h1>
-    <button type="button" class="submit">Submit Stats</button>
+    <span class="score"></span>
 </div>
 <div className="mapArea">
     <img src="~/images/europe.gif" alt="" useMap="#Map" />
@@ -16,6 +16,27 @@
     }
     </map>
 </div>
+
+<div class="results modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">You've finished this round</h4>
+      </div>
+      <div class="modal-body">
+        <a asp-action="Details" asp-route-id="@Model.Continent.ContinentId">Play Again?</a>
+        <br>
+        <a asp-action="Index">Choose a different Continent</a>
+        <br>
+        <a asp-action="Index" asp-controller="Stats">View Your Stats</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @section Scripts
 {
