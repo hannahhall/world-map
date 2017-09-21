@@ -45,6 +45,12 @@ namespace world_map.Controllers
                     .SingleOrDefaultAsync(m => m.ContinentId == id),
                 UserId = user.Id
             };
+
+            if (model.Continent == null)
+            {
+                return NotFound();
+            }
+            
             model.Countries = await _context.Country
                 .Where(c => c.ContinentId == model.Continent.ContinentId)
                 .ToListAsync();
@@ -52,20 +58,13 @@ namespace world_map.Controllers
             model.SubRegions = await _context.SubRegion
                 .Where(sr => sr.ContinentId == model.Continent.ContinentId)
                 .ToListAsync();
-            
-
-
-            if (model.Continent == null)
-            {
-                return NotFound();
-            }
 
             return View(model);
         }
 
         // GET: Continent/Create
         public IActionResult Create()
-        {
+        { 
             return View();
         }
 
