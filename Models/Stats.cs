@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System;
 
 namespace WorldMap.Models
 {
@@ -20,7 +21,6 @@ namespace WorldMap.Models
 
         public int Success { get; set; }
 
-
-
+        public DateTime DateCreated { get; set; }
     }
 }
