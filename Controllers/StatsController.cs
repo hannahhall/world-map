@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WorldMap.Data;
 using WorldMap.Models;
+using WorldMap.Models.StatsViewModels;
 
 namespace world_map.Controllers
 {
@@ -28,8 +29,13 @@ namespace world_map.Controllers
         // GET: Stats
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Stats.Include(s => s.Country);
-            return View(await applicationDbContext.ToListAsync());
+            var user = await GetCurrentUserAsync();            
+            var statsForUser = _context.Stats
+                .Include(s => s.Country)
+                    .ThenInclude(c => c.Continent)
+                .Where(s => s.User == user)
+                .OrderBy(s => s.DateCreated).ToList();
+            return View(statsForUser);
         }
 
         // GET: Stats/Details/5
@@ -66,6 +72,7 @@ namespace world_map.Controllers
             {
                 var user = await GetCurrentUserAsync();
                 stats.User = user;
+                stats.DateCreated = DateTime.Now;
                 _context.Add(stats);
                 await _context.SaveChangesAsync();
             }
