@@ -1,47 +1,63 @@
-@model IEnumerable<WorldMap.Models.Stats>
+@model List<WorldMap.Models.Stats>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Your Overall Stats";
 }
 
-<h2>Index</h2>
+<h2>Your Overall Stats</h2>
+<div class="row">
+    
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Tries)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Success)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tries)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Success)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country.Capital)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StatsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StatsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StatsId">Delete</a>
-            </td>
-        </tr>
+<div class="list-group col-md-4">
+  <a asp-action="Index" for="percentage" class="list-group-item active">
+    Overall Stats
+  </a>
+  <a href="#" for="date" class="list-group-item">Progress by Date</a>
+  <a href="#" for="avgNumTries" class="list-group-item">Average Number of Tries</a>
+  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item">Vestibulum at eros</a>
+</div>
+<div class="col-md-2">
+    
+</div>
+<div class="col-md-6 charts">
+    <canvas id="percentage"></canvas>
+    
+</div>
+</div>
+
+@section Scripts
+{
+    <script>
+        const stats = @Html.Raw(
+            Json.Serialize(Model, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+        );
+        //console.log(stats);
+        let successesArr = stats.map(x => x.Success);
+        let ctx = $('#percentage')[0].getContext('2d');
+        let chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'pie',
+            // The data for our dataset
+            data: {
+                labels: ["Right", "Wrong"],
+                datasets: [{
+                    label: "My First dataset",
+                    backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [successesArr.filter(x => x === 1).length, successesArr.filter(x => x === 0).length],
+                }]
+            },
+            // Configuration options go here
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: 14
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="~/js/statsCharts.js" type="text/javascript"></script>
 }
-    </tbody>
-</table>
