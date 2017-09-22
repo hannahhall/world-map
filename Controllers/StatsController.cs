@@ -29,13 +29,24 @@ namespace world_map.Controllers
         // GET: Stats
         public async Task<IActionResult> Index()
         {
-            var user = await GetCurrentUserAsync();            
-            var statsForUser = _context.Stats
-                .Include(s => s.Country)
-                    .ThenInclude(c => c.Continent)
-                .Where(s => s.User == user)
-                .OrderBy(s => s.DateCreated).ToList();
-            return View(statsForUser);
+            var user = await GetCurrentUserAsync();
+            List<Stats> stats = new List<Stats>();
+            if (user == null) {
+                stats = _context.Stats
+                    .Include(s => s.Country)
+                        .ThenInclude(c => c.Continent)
+                    .OrderBy(s => s.DateCreated).ToList();
+            }
+            else
+            {
+                stats = _context.Stats
+                    .Include(s => s.Country)
+                        .ThenInclude(c => c.Continent)
+                    .Where(s => s.User == user)
+                    .OrderBy(s => s.DateCreated).ToList();
+            } 
+            StatsIndexViewModel model = new StatsIndexViewModel(stats);
+            return View(model);
         }
 
         // GET: Stats/Details/5
