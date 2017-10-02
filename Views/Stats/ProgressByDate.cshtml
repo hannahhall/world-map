@@ -1,0 +1,86 @@
+@model WorldMap.Models.StatsViewModels.StatsIndexViewModel
+
+@{
+    ViewData["Title"] = "Your Overall Stats";
+}
+
+<h2>Your Overall Stats</h2>
+<div class="row">
+    
+<div class="panel-group  col-md-4" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#overallStats" aria-expanded="true" aria-controls="overallStats">
+                    Overall
+                </a>
+            </h4>
+        </div>
+        <div id="overallStats" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <ul class="list-group">
+                <a asp-action="Index" class="active list-group-item" for="overall" >
+                    Overall Stats
+                </a>
+                <a href="#" for="Europe"class="list-group-item">Europe</a>
+                <a href="#" for="Africa" class="list-group-item">Africa</a>
+                <a href="#" for="Asia" class="list-group-item">Asia</a>
+                <a href="#" for="NorthAmerica" class="list-group-item">North America</a>
+                <a href="#" for="SouthAmerica" class="list-group-item">South America</a>
+                <a href="#" for="Oceania" class="list-group-item">Oceania</a>
+            </ul>
+        </div>
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a asp-action="ProgressByDate">
+                    Progress By Date
+                </a>
+            </h4>
+        </div>
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a asp-action="AverageNumberTries">
+                    AverageNumberTries
+                </a>
+            </h4>
+        </div>
+    </div>
+</div>
+<div class="col-md-2">
+    
+</div>
+<div class="col-md-6 charts">
+    <p class="para">There is no data for this area</p>
+    <canvas id="percentage"></canvas>
+</div>
+</div>
+
+@section Scripts
+{
+    <script>
+        const stats = (function () {
+            this.Overall = @Html.Raw(
+                Json.Serialize(Model.OverallStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.Europe = @Html.Raw(
+                Json.Serialize(Model.EuropeStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.Africa = @Html.Raw(
+                Json.Serialize(Model.AfricaStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.Asia = @Html.Raw(
+                Json.Serialize(Model.AsiaStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.NorthAmerica = @Html.Raw(
+                Json.Serialize(Model.NorthAmericaStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.SouthAmerica = @Html.Raw(
+                Json.Serialize(Model.SouthAmericaStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            this.Oceania = @Html.Raw(
+                Json.Serialize(Model.OceaniaStats, new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})
+            );
+            return this;
+        })();
+    </script>
+    <script src="~/js/statsProgress.js" type="text/javascript"></script>
+}
