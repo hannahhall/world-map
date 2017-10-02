@@ -1,4 +1,4 @@
-@model WorldMap.Models.StatsViewModels.StatsIndexViewModel
+@model WorldMap.Models.StatsViewModels.StatsDateViewModel
 
 @{
     ViewData["Title"] = "Your Overall Stats";
@@ -11,14 +11,21 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#overallStats" aria-expanded="true" aria-controls="overallStats">
+                <a asp-action="Index">
                     Overall
                 </a>
             </h4>
+        </div>  
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#dateStats" aria-expanded="true" aria-controls="dateStats">
+                    Progress By Date
+                </a>
+            </h4>
         </div>
-        <div id="overallStats" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div id="dateStats" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <ul class="list-group">
-                <a asp-action="Index" class="active list-group-item" for="overall" >
+                <a href="#" class="active list-group-item" for="Overall" >
                     Overall Stats
                 </a>
                 <a href="#" for="Europe"class="list-group-item">Europe</a>
@@ -31,15 +38,8 @@
         </div>
         <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-                <a asp-action="ProgressByDate">
-                    Progress By Date
-                </a>
-            </h4>
-        </div>
-        <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
                 <a asp-action="AverageNumberTries">
-                    AverageNumberTries
+                    Average Number of Tries
                 </a>
             </h4>
         </div>
@@ -50,7 +50,7 @@
 </div>
 <div class="col-md-6 charts">
     <p class="para">There is no data for this area</p>
-    <canvas id="percentage"></canvas>
+    <canvas id="date"></canvas>
 </div>
 </div>
 
