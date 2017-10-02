@@ -92,7 +92,7 @@ namespace world_map.Controllers
             {
                 var user = await GetCurrentUserAsync();
                 stats.User = user;
-                stats.DateCreated = DateTime.Now;
+                stats.DateCreated = DateTime.Now.Date;
                 _context.Add(stats);
                 await _context.SaveChangesAsync();
             }
