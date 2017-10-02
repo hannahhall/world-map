@@ -25,28 +25,37 @@ namespace world_map.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+        private List<Stats> StatsList(ApplicationUser user = null) {
+            if (user == null)
+            {
+                return _context.Stats
+                    .Include(s => s.Country)
+                        .ThenInclude(c => c.Continent)
+                    .OrderBy(s => s.DateCreated).ToList();
+            }
+            return  _context.Stats
+                .Include(s => s.Country)
+                    .ThenInclude(c => c.Continent)
+                .Where(s => s.User == user)
+                .OrderBy(s => s.DateCreated).ToList();
+        }
 
         // GET: Stats
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            List<Stats> stats = new List<Stats>();
-            if (user == null) {
-                stats = _context.Stats
-                    .Include(s => s.Country)
-                        .ThenInclude(c => c.Continent)
-                    .OrderBy(s => s.DateCreated).ToList();
-            }
-            else
-            {
-                stats = _context.Stats
-                    .Include(s => s.Country)
-                        .ThenInclude(c => c.Continent)
-                    .Where(s => s.User == user)
-                    .OrderBy(s => s.DateCreated).ToList();
-            } 
+            List<Stats> stats = StatsList(user);            
             StatsIndexViewModel model = new StatsIndexViewModel(stats);
             return View(model);
+        }
+
+        public async Task<IActionResult> ProgressByDate()
+        {
+            var user = await GetCurrentUserAsync();
+            List<Stats> stats = StatsList(user);
+            StatsDateViewModel model = new StatsDateViewModel(stats);
+            return View(model);
+
         }
 
         // GET: Stats/Details/5
