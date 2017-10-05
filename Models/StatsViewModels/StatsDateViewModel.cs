@@ -18,7 +18,7 @@ namespace WorldMap.Models.StatsViewModels
         {
             if (area == null)
             {
-                return stats.GroupBy(s => s.DateCreated, s => s.Success,
+                return stats.OrderBy(s => s.DateCreated).GroupBy(s => s.DateCreated, s => s.Success,
                     (key, g) => new Dictionary<DateTime, double>(){
                         {key, g.Average() * 100}
                     });
@@ -26,6 +26,7 @@ namespace WorldMap.Models.StatsViewModels
             else
             {
                 return stats.Where(s => s.Country.Continent.Name == area)
+                    .OrderBy(s => s.DateCreated)
                     .GroupBy(s => s.DateCreated, s => s.Success,
                         (key, g) => new Dictionary<DateTime, double>(){
                             {key, g.Average() * 100}
