@@ -4,57 +4,44 @@
     ViewData["Title"] = "Your Overall Stats";
 }
 
-<h2>Your Overall Stats</h2>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#link-area" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">Your Overall Stats</a>
+    </div>
+    <div class="collapse navbar-collapse" id="link-area">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown active">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Overall <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" for="Overall">Overall</a></li>
+                <li><a href="#" for="Europe">Europe</a></li>
+                <li><a href="#" for="Africa" >Africa</a></li>
+                <li><a href="#" for="Asia" >Asia</a></li>
+                <li><a href="#" for="NorthAmerica" >North America</a></li>
+                <li><a href="#" for="SouthAmerica" >South America</a></li>
+                <li><a href="#" for="Oceania" >Oceania</a></li>
+            </ul>
+        </li>
+        <li><a asp-action="ProgressByDate">Progress By Date</a></li>
+        <li><a asp-action="AverageNumberTries">Average Number of Tries</a></li>
+      </ul>
+  </div>
+</nav>
 <div class="row">
     
-<div class="panel-group  col-md-4" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#overallStats" aria-expanded="true" aria-controls="overallStats">
-                    Overall
-                </a>
-            </h4>
-        </div>
-        <div id="overallStats" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <ul class="list-group">
-                <a asp-action="Index" class="active list-group-item" for="overall" >
-                    Overall Stats
-                </a>
-                <a href="#" for="Europe"class="list-group-item">Europe</a>
-                <a href="#" for="Africa" class="list-group-item">Africa</a>
-                <a href="#" for="Asia" class="list-group-item">Asia</a>
-                <a href="#" for="NorthAmerica" class="list-group-item">North America</a>
-                <a href="#" for="SouthAmerica" class="list-group-item">South America</a>
-                <a href="#" for="Oceania" class="list-group-item">Oceania</a>
-            </ul>
-        </div>
-        <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-                <a asp-action="ProgressByDate">
-                    Progress By Date
-                </a>
-            </h4>
-        </div>
-        <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-                <a asp-action="AverageNumberTries">
-                    AverageNumberTries
-                </a>
-            </h4>
-        </div>
+   
+    <div class="col-md-3"></div>
+    <div class="col-md-6 charts">
+        <p class="para">There is no data for this area</p>
+        <canvas id="percentage"></canvas>
     </div>
-</div>
-<div class="col-md-1">
-    
-</div>
-<div class="col-md-5 charts">
-    <p class="para">There is no data for this area</p>
-    <canvas id="percentage"></canvas>
-</div>
-<div class="col-md-1">
-    
-</div>
 </div>
 
 @section Scripts
