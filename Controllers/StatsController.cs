@@ -31,13 +31,13 @@ namespace world_map.Controllers
                 return _context.Stats
                     .Include(s => s.Country)
                         .ThenInclude(c => c.Continent)
-                    .OrderBy(s => s.DateCreated).ToList();
+                    .ToList();
             }
             return  _context.Stats
                 .Include(s => s.Country)
                     .ThenInclude(c => c.Continent)
                 .Where(s => s.User == user)
-                .OrderBy(s => s.DateCreated).ToList();
+                .ToList();
         }
 
         // GET: Stats
@@ -55,7 +55,14 @@ namespace world_map.Controllers
             List<Stats> stats = StatsList(user);
             StatsDateViewModel model = new StatsDateViewModel(stats);
             return View(model);
+        }
 
+        public async Task<IActionResult> AverageNumberTries()
+        {
+            var user = await GetCurrentUserAsync();
+            List<Stats> stats = StatsList(user);
+            StatsTriesViewModel model = new StatsTriesViewModel(stats);
+            return View(model);
         }
 
         // GET: Stats/Details/5
