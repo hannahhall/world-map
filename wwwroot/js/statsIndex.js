@@ -42,7 +42,7 @@ function MakeChart(dataSet) {
     $('.canvas-holder').show();
     $('.canvas-holder').addClass('col-md-6 col-md-offset-3');
     $('.para').hide();
-    $('.canvas-holder').append($('<canvas id="percentage"></canvas>'));
+    $('.canvas-holder').append($('<h3>Average score for all continents and countries</h3><canvas id="percentage"></canvas>'));
     let ctx = $('#percentage')[0].getContext('2d');
     createChart(ctx, data);
 }
